@@ -74,9 +74,48 @@ export function xhr() {
 }
 
 export function allPromises() {
+
+    let categories = axios.get('http://localhost:3000/itemCategories');
+    let statuses = axios.get('http://localhost:3000/orderStatuses');
+    let userTypes = axios.get('http://localhost:3000/userTypes');
+    // this fails
+    let addressTypes = axios.get('http://localhost:3000/addressTypes');
+    // promise settled when all success or 1 fail
+    Promise.all([categories, statuses, userTypes, addressTypes])
+        .then(([cat, stat, type, address]) => {
+            setText("");
+            appendText(`cat data: ${JSON.stringify(cat.data)}`);
+            appendText(`stat data: ${JSON.stringify(stat.data)}`);
+            appendText(`type data: ${JSON.stringify(type.data)}`);
+            appendText(`address data: ${JSON.stringify(address.data)}`);
+        })
+        .catch(reasons => {
+            setText(reasons);
+        })
+
 }
 
 export function allSettled() {
+    let categories = axios.get('http://localhost:3000/itemCategories');
+    let statuses = axios.get('http://localhost:3000/orderStatuses');
+    let userTypes = axios.get('http://localhost:3000/userTypes');
+    // this fails
+    let addressTypes = axios.get('http://localhost:3000/addressTypes');
+    
+    Promise.allSettled([categories, statuses, userTypes, addressTypes])
+        .then((values) => {
+            console.log(`${JSON.stringify(values)}`)
+            setText(values.map((value) => {
+                return value.status == "fulfilled" ? `${value.status}: ${JSON.stringify(value.value.data[0]) } `
+                : `${value.status}: ${value.reason.message} `;
+            })
+            );
+
+        })
+        // not needed for allSettled but recommended
+        .catch(reasons => {
+            setText(reasons);
+        })
 }
 
 export function race() {
