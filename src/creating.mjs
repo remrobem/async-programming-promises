@@ -70,6 +70,7 @@ export function xhr() {
         .catch((reason) => {
             setText(reason)
         })
+
 }
 
 export function allPromises() {
