@@ -119,4 +119,11 @@ export function allSettled() {
 }
 
 export function race() {
+    // first one to cpmplete, even if error, settles the promise
+    let users = axios.get("http://localhost:3000/users");
+    let backup = axios.get("http://localhost:3001/users");
+
+    Promise.race([users,backup])
+    .then(users => setText(JSON.stringify(users.data)))
+    .catch(reason => setText(reason))
 }
