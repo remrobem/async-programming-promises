@@ -11,6 +11,9 @@ export function timeout() {
 
 
     wait.then(text => setText(text));
+
+    console.log('after Promise');
+
 }
 
 export function interval() {
@@ -25,6 +28,9 @@ export function interval() {
 
     wait.then(text => setText(text));
     wait.finally(() => appendText(`Finally Done at ${counter}`))
+
+    console.log('after Promise');
+
 }
 
 export function clearIntervalChain() {
@@ -41,6 +47,9 @@ export function clearIntervalChain() {
         // console.log(`Interval: ${interval}`)
         clearInterval(interval)
     })
+
+    console.log('after Promise');
+
 }
 
 export function xhr() {
@@ -71,6 +80,9 @@ export function xhr() {
             setText(reason)
         })
 
+        console.log('after Promise');
+
+
 }
 
 export function allPromises() {
@@ -92,6 +104,9 @@ export function allPromises() {
         .catch(reasons => {
             setText(reasons);
         })
+
+        console.log('after all Promise');
+
 
 }
 
@@ -116,6 +131,8 @@ export function allSettled() {
         .catch(reasons => {
             setText(reasons);
         })
+        console.log('after allSettled Promise');
+
 }
 
 export function race() {
@@ -125,5 +142,7 @@ export function race() {
 
     Promise.race([users,backup])
     .then(users => setText(JSON.stringify(users.data)))
-    .catch(reason => setText(reason))
+    .catch(reason => setText(reason));
+
+    console.log('after race Promise');
 }
